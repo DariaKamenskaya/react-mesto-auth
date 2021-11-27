@@ -11,6 +11,7 @@ import {CurrentCardsContext}  from '../contexts/CurrentCardsContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup'
 import AddPlacePopup from './AddPlacePopup'
+import { Route, Switch } from 'react-router-dom';
 
 function App() {
 
@@ -125,7 +126,10 @@ function App() {
   }, []);
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <Switch>
+      <Route path="/sign-in">
+      </Route>
+      <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
         <CurrentCardsContext.Provider value={currentCards}>
@@ -144,7 +148,11 @@ function App() {
           </button> 
         </PopupWithForm>
       </div>
-    </CurrentUserContext.Provider>
+      </CurrentUserContext.Provider>
+      <Route path="/sign-up">
+      </Route>
+    </Switch>
+    
   );
 }
 
