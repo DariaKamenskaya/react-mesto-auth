@@ -9,9 +9,12 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import  {apiData}  from '../utils/Api';
 import {CurrentCardsContext}  from '../contexts/CurrentCardsContext';
 import EditProfilePopup from './EditProfilePopup';
-import EditAvatarPopup from './EditAvatarPopup'
-import AddPlacePopup from './AddPlacePopup'
-import { Route, Switch } from 'react-router-dom';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Register from '../components/Register';
+import Login from '../components/Login'
+import ProtectedRoute from '../components/ProtectedRoute';
 
 function App() {
 
@@ -21,6 +24,8 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [currentCards, setCurrentCards] = React.useState([]);
+   // Стейт, в котором содержится значение инпута
+   const [loggedIn, setloggedIn] = React.useState(false);
 
   function handleEditAvatarClick() {
     handleEditAvatarPopupOpen(true);
@@ -88,7 +93,7 @@ function App() {
     // Отправляем запрос в API
     apiData.deleteCard(deletedCard._id)
     .then(() => {
-      setCurrentCards((cardsData) => cardsData.filter((c) => {return c._id != deletedCard._id }));
+      setCurrentCards((cardsData) => cardsData.filter((c) => {return c._id !== deletedCard._id }));
     })
     .catch((err) => {
       console.log(err); // "Что-то пошло не так: ..."
@@ -126,33 +131,12 @@ function App() {
   }, []);
 
   return (
-    <Switch>
-      <Route path="/sign-in">
-      </Route>
-      <CurrentUserContext.Provider value={currentUser}>
-      <div className="page">
-        <Header />
-        <CurrentCardsContext.Provider value={currentCards}>
-          <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} 
-                onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} 
-                setCards={setCurrentCards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/> 
-          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/> 
-          <AddPlacePopup   isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/> 
-        </CurrentCardsContext.Provider>
-        <Footer />
-        <ImagePopup  card={selectedCard}  onClosePopup={closeAllPopups}/>
-        <PopupWithForm name="delete" title="Вы уверены?"  onClosePopup={closeAllPopups}>
-          <button className="popup__submit-btn popup__submit-btn_delete"  type="submit">
-            Да
-          </button> 
-        </PopupWithForm>
-      </div>
-      </CurrentUserContext.Provider>
-      <Route path="/sign-up">
-      </Route>
-    </Switch>
-    
+    <Routes>
+      <Route path="/" element={<ProtectedRoute/>} />
+      <Route path="/sign-in" element={<Register/>} />
+      <Route path="/sign-up" element={<Login/>} />
+    </Routes>
+
   );
 }
 

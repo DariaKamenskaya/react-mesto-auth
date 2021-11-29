@@ -6,7 +6,7 @@ import {CurrentCardsContext}  from '../contexts/CurrentCardsContext'
 function AddPlacePopup(props) {
 
   // Подписка на контекст
-  const currentUser = React.useContext(CurrentUserContext);
+   const currentUser = React.useContext(CurrentUserContext);
  // Подписываемся на контекст CurrentCardsContext
   const cardsData = React.useContext(CurrentCardsContext);
  // Стейт, в котором содержится значение инпута

@@ -59,3 +59,12 @@ body {
 @import url(./blocks/popup/__submit-btn/_inactive/popup__submit-btn_inactive.css);
 @import url(./blocks/popup/_is-opened/popup_is-opened.css);
 @import url(./blocks/popup/__image/popup__image.css);
+
+/* block "register" */
+@import url(./blocks/register/register.css);
+@import url(./blocks/register/__welcome/register__welcome.css);
+@import url(./blocks/register/__form/register__form.css);
+@import url(./blocks/register/__button-container/register__button-container.css);
+@import url(./blocks/register/__link/register__link.css);
+@import url(./blocks/register/__login-link/register__login-link.css);
+@import url(./blocks/register/__signin/register__signin.css);
