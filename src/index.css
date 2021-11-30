@@ -10,8 +10,10 @@ body {
 @import url(./blocks/page/page.css); 
 /* block "header" */
 @import url(./blocks/header/header.css);
+@import url(./blocks/header/__nav/header__nav.css);
 @import url(./blocks/header/__link/header__link.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__status/header__status.css);
 /* block "profile" */
 @import url(./blocks/profile/profle.css);
 @import url(./blocks/profile/__avatar-conteiner/profile__avatar_conteiner.css);
@@ -64,6 +66,7 @@ body {
 @import url(./blocks/register/register.css);
 @import url(./blocks/register/__welcome/register__welcome.css);
 @import url(./blocks/register/__form/register__form.css);
+@import url(./blocks/register/__input/register__input.css);
 @import url(./blocks/register/__button-container/register__button-container.css);
 @import url(./blocks/register/__link/register__link.css);
 @import url(./blocks/register/__login-link/register__login-link.css);

@@ -15,6 +15,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import Register from '../components/Register';
 import Login from '../components/Login'
 import ProtectedRoute from '../components/ProtectedRoute';
+import Layout from '../components/Layout';
 
 function App() {
 
