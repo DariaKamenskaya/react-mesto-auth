@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
 
 class Login extends React.Component {
@@ -28,27 +29,19 @@ class Login extends React.Component {
   render(){
     return(
       <div className="login">
+        <Header nav={'/sign-in'} navStatus={'Регистрация'}/>
         <p className="login__welcome">
-          Добро пожаловать!
+          Вход
         </p>
         <form onSubmit={this.handleSubmit} className="login__form">
-          <label htmlFor="username">
-            Логин:
-          </label>
-          <input required id="username" name="username" type="text" value={this.state.username} onChange={this.handleChange} />
-          <label htmlFor="password">
-            Пароль:
-          </label>
-          <input required id="password" name="password" type="password" value={this.state.password} onChange={this.handleChange} />
+          <input id="email" name="email" type="email" placeholder="Email" className="login__input"
+                 value={this.state.username} onChange={this.handleChange} />
+          <input required id="password" name="password" type="password" placeholder="Пароль" className="login__input"
+                 value={this.state.password} onChange={this.handleChange} />
           <div className="login__button-container">
             <button type="submit" className="login__link">Войти</button>
           </div>
         </form>
-
-        <div className="login__signup">
-          <p>Ещё не зарегистрированы?</p>
-          <Link to="/register" className="signup__link">Зарегистрироваться</Link>
-        </div>
       </div>
     )
   }

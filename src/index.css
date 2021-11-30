@@ -71,3 +71,13 @@ body {
 @import url(./blocks/register/__link/register__link.css);
 @import url(./blocks/register/__login-link/register__login-link.css);
 @import url(./blocks/register/__signin/register__signin.css);
+
+/* block "login" */
+@import url(./blocks/login/login.css);
+@import url(./blocks/login/__welcome/login__welcome.css);
+@import url(./blocks/login/__form/login__form.css);
+@import url(./blocks/login/__input/login__input.css);
+@import url(./blocks/login/__button-container/login__button-container.css);
+@import url(./blocks/login/__link/login__link.css);
+@import url(./blocks/login/__signup/login__signup.css);
+@import url(./blocks/login/__signup-link/login__signup-link.css);
