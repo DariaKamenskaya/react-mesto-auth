@@ -1,18 +1,24 @@
 import React from 'react';
 import * as auth from '../components/auth';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Header from '../components/Header';
+import InfoTooltip from '../components/InfoTooltip';
 
 class Register extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      isOpenLoginPopup: false,
+      error: false,
+      message: ''
     }
+    
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
 
   handleChange(e) {
     const {name, value} = e.target;
@@ -23,22 +29,25 @@ class Register extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-    if (this.state.password === this.state.confirmPassword){
-      auth.register(this.state.username, this.state.password, this.state.email).then((res) => {
+      this.setState({ isOpenLoginPopup: true });
+      auth.register(this.state.password, this.state.email).then((res) => {
         if(res){
           this.setState({
             message: ''
-          }, () => {
-            this.props.history.push('/login');
           })
         } else {
           this.setState({
-            message: 'Что-то пошло не так!'
+            message: 'Что-то пошло не так!',
+            error: true
           })
         }
       });
-    }
+      console.log(this.state.message, this.state.error);
   }
+
+  closePopup = () => {
+    this.setState({ isOpenLoginPopup: false });
+  };
 
   render(){
     return(
@@ -58,6 +67,10 @@ class Register extends React.Component {
           <p>Уже зарегестрировались?</p>
           <Link to="login" className="register__login-link">Войти</Link>
         </div>
+        <InfoTooltip isOpen={this.state.isOpenLoginPopup} error={this.state.error} onClosePopup={this.closePopup}/> 
+        { this.state.error && (
+          <Navigate to="/sign-up" replace={true} />
+        )}
       </div>
     )
   }

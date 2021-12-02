@@ -50,8 +50,10 @@ body {
 @import url(./blocks/popup/__content/_avatar/popup__content_avatar.css);
 @import url(./blocks/popup/__close/popup__close.css);
 @import url(./blocks/popup/__close/_img/popup__close_img.css);
+@import url(./blocks/popup/__icon-login/popup__icon-login.css);
 @import url(./blocks/popup/__title/popup__title.css);
 @import url(./blocks/popup/__title/_img/popup__title_img.css);
+@import url(./blocks/popup/__title/_login/popup__title_login.css);
 @import url(./blocks/popup/__form/popup__form.css);
 @import url(./blocks/popup/__input/popup__input.css);
 @import url(./blocks/popup/__input/_type/popup__input_type_error.css);

@@ -15,13 +15,13 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import Register from '../components/Register';
 import Login from '../components/Login'
 import ProtectedRoute from '../components/ProtectedRoute';
-import Layout from '../components/Layout';
 
 function App() {
 
   const [isEditProfilePopupOpen, handleEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, handleAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, handleEditAvatarPopupOpen] = React.useState(false);
+  const [isLoginPopupOpen, handleLoginPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [currentCards, setCurrentCards] = React.useState([]);
@@ -40,6 +40,10 @@ function App() {
     handleAddPlacePopupOpen(true);
   };
 
+  function handleLoginPopupClick() {
+    handleLoginPopupOpen(true);
+  };
+
   function handleCardClick(card) {
     setSelectedCard(card);
   };
@@ -48,6 +52,7 @@ function App() {
     handleEditAvatarPopupOpen(false);
     handleEditProfilePopupOpen(false);
     handleAddPlacePopupOpen(false);
+    handleLoginPopupOpen(false);
     setSelectedCard(null);
   };
 
