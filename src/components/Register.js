@@ -11,7 +11,7 @@ class Register extends React.Component {
       email: '',
       password: '',
       isOpenLoginPopup: false,
-      error: false,
+      errorLogin: null,
       message: ''
     }
     
@@ -29,20 +29,25 @@ class Register extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-      this.setState({ isOpenLoginPopup: true });
       auth.register(this.state.password, this.state.email).then((res) => {
-        if(res){
+        if(res.token){
           this.setState({
-            message: ''
-          })
+            message: 'Успешно зарегестрировались',
+            errorLogin: true
+          });
+          this.openPopup();
         } else {
           this.setState({
             message: 'Что-то пошло не так!',
-            error: true
-          })
+            errorLogin: false
+          });
+          this.openPopup();
         }
       });
-      console.log(this.state.message, this.state.error);
+  }
+
+  openPopup = () => {
+    this.setState({isOpenLoginPopup: true});
   }
 
   closePopup = () => {
@@ -65,12 +70,12 @@ class Register extends React.Component {
         </form>
         <div className="register__signin">
           <p>Уже зарегестрировались?</p>
-          <Link to="login" className="register__login-link">Войти</Link>
+          <Link to="sign-up" className="register__login-link">Войти</Link>
         </div>
-        <InfoTooltip isOpen={this.state.isOpenLoginPopup} error={this.state.error} onClosePopup={this.closePopup}/> 
-        { this.state.error && (
-          <Navigate to="/sign-up" replace={true} />
-        )}
+        <InfoTooltip isOpen={this.state.isOpenLoginPopup} errorLogin={this.state.errorLogin} onClosePopup={this.closePopup}/> 
+        {/* (this.state.errorLogin && this.state.isOpenLoginPopup) &&
+             <Navigate to="/sign-up" replace={true} /> 
+        */}
       </div>
     )
   }

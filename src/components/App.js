@@ -141,6 +141,7 @@ function App() {
       <Route path="/" element={<ProtectedRoute/>} />
       <Route path="/sign-in" element={<Register/>} />
       <Route path="/sign-up" element={<Login/>} />
+      <Route path="/logged" element={<Main/>} />
     </Routes>
 
   );

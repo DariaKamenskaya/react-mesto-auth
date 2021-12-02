@@ -1,11 +1,13 @@
 import React from 'react';
 import success_icon from '../images/success-icon.svg';
 import fail_icon from '../images/fail-icon.svg';
+import { Navigate } from 'react-router-dom';
 
 class InfoTooltip extends React.Component {
 
   render() {
-    if (this.props.isOpen & !this.props.error) { 
+    console.log(this.props.errorLogin);
+    if (this.props.isOpen && this.props.errorLogin) { 
       return (
         <section className="popup popup_login popup_is-opened" >
         <div className="popup__content popup__content_login" >
@@ -13,9 +15,10 @@ class InfoTooltip extends React.Component {
           <img src={success_icon}  alt='Успех' className="popup__icon-login" /> 
           <h3 className="popup__title popup__title_login">Вы успешно зарегистрировались!</h3> 
         </div>
-        </section>  
+        <Navigate to="/sign-up" replace={true} /> 
+        </section>
       );
-     } else if (this.props.isOpen & this.props.error) {
+     } else if (this.props.isOpen && !this.props.errorLogin) {
         return (
           <section className="popup popup_login popup_is-opened" >
           <div className="popup__content popup__content_login" >
@@ -23,7 +26,7 @@ class InfoTooltip extends React.Component {
             <img src={fail_icon} alt='Ошибка' className="popup__icon-login" /> 
             <h3 className="popup__title popup__title_login">Что-то пошло не так! Попробуйте еще раз</h3> 
           </div>
-          </section>  
+          </section>
         );
     } else {
         // для плавного открытия попапа
