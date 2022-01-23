@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // Импорт модулей
 import Header from '../components/Header';
 import Main from '../components/Main';
@@ -11,22 +11,26 @@ import {CurrentCardsContext}  from '../contexts/CurrentCardsContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import Register from '../components/Register';
 import Login from '../components/Login'
 import RequireAuth from '../components/ProtectedRoute';
+import * as auth from '../components/auth';
 
 function App() {
 
-  const [isEditProfilePopupOpen, handleEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, handleAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, handleEditAvatarPopupOpen] = React.useState(false);
-  const [isLoginPopupOpen, handleLoginPopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(null);
-  const [currentUser, setCurrentUser] = React.useState({});
-  const [currentCards, setCurrentCards] = React.useState([]);
+  const [isEditProfilePopupOpen, handleEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, handleAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, handleEditAvatarPopupOpen] = useState(false);
+  const [isLoginPopupOpen, handleLoginPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
+  const [currentCards, setCurrentCards] = useState([]);
    // Стейт, в котором содержится значение инпута
-   const [loggedIn, setloggedIn] = React.useState(false);
+   const [loggedIn, setLoggedIn] = useState(false);
+
+   const navigate = useNavigate();
+   const location = useLocation();
 
   function handleEditAvatarClick() {
     handleEditAvatarPopupOpen(true);
@@ -120,12 +124,12 @@ function App() {
     });
   } 
 
-  function handleLogin(e) {
-    e.preventDefault();
-    setloggedIn(true);
-  }
+  // function handleLogin(e) {
+  //   e.preventDefault();
+  //   setloggedIn(true);
+  // }
 
-  React.useEffect(() => {
+  useEffect(() => {
     // запрос в API за пользовательскими данными
     Promise.all([ 
     apiData.getUserData(),
@@ -141,6 +145,27 @@ function App() {
     })
   }, []);
 
+
+  useEffect(() => {
+    handleTokenCheck(location.pathname);
+  },[]);
+
+
+  const handleTokenCheck = (path) => {
+    if (localStorage.getItem("jwt")) {
+      const jwt = localStorage.getItem("jwt");
+      console.log(jwt);
+      // проверяем токен пользователя
+      auth.checkToken(jwt).then((res) => {
+        if (res) {
+          // если есть цель, добавляем её в стейт
+          setLoggedIn(true);
+          navigate(path);
+        }
+      });
+    }
+  };
+
   return (
     <Routes>
       <Route
@@ -152,7 +177,7 @@ function App() {
             }
       />
       <Route path="/sign-up" element={<Register/>} />
-      <Route path="/sign-in" element={<Login handleLogin={handleLogin}/>} />
+      <Route path="/sign-in" element={<Login onLogin={handleTokenCheck}/>} />
       <Route path="/logged" element={<Main/>} />
     </Routes>
 
