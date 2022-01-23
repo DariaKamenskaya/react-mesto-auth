@@ -14,7 +14,7 @@ import AddPlacePopup from './AddPlacePopup';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Register from '../components/Register';
 import Login from '../components/Login'
-import ProtectedRoute from '../components/ProtectedRoute';
+import RequireAuth from '../components/ProtectedRoute';
 
 function App() {
 
@@ -120,6 +120,11 @@ function App() {
     });
   } 
 
+  function handleLogin(e) {
+    e.preventDefault();
+    setloggedIn(true);
+  }
+
   React.useEffect(() => {
     // запрос в API за пользовательскими данными
     Promise.all([ 
@@ -138,9 +143,16 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<ProtectedRoute/>} />
-      <Route path="/sign-in" element={<Register/>} />
-      <Route path="/sign-up" element={<Login/>} />
+      <Route
+            path="/"
+            element={
+              <RequireAuth loggedIn={loggedIn}>
+                <Register />
+              </RequireAuth>
+            }
+      />
+      <Route path="/sign-up" element={<Register/>} />
+      <Route path="/sign-in" element={<Login handleLogin={handleLogin}/>} />
       <Route path="/logged" element={<Main/>} />
     </Routes>
 

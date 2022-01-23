@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import * as auth from '../components/auth';
 
 
 class Login extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      username: '',
+      email: '',
       password: ''
     }
     this.handleChange = this.handleChange.bind(this);
@@ -23,6 +24,22 @@ class Login extends React.Component {
   handleSubmit(e){
     e.preventDefault();
     // здесь обрабатываем вход в систему
+    if (!this.state.username || !this.state.password){
+      return;
+    }
+    auth.authorize(this.state.email, this.state.password)
+    .then((data) => {
+       if (data.jwt) {
+        this.setState({
+          email: '',
+          password: ''
+        }, () => {
+          this.props.handleLogin(); // обновляем стейт внутри App.js
+          this.props.history.push('/logged'); // и переадресуем пользователя! 
+        })
+      }
+    })
+    .catch(err => console.log(err));
   }
 
 
