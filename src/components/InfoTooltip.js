@@ -5,8 +5,6 @@ import fail_icon from '../images/fail-icon.svg';
 
 export default function InfoTooltip(props) {
 
-  
-    console.log(props.errorLogin)
     if (props.errorLogin) { 
       return (
         <section className="popup popup_login popup_is-opened" >

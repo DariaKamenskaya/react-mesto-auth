@@ -157,7 +157,6 @@ function App() {
         if (res) {
           // если есть цель, добавляем её в стейт
           setLoggedIn(true);
-          console.log(res.data.email);
           setUserEmail(res.data.email);
           navigate(path);
         }
@@ -165,14 +164,16 @@ function App() {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = (email) => {
     setLoggedIn(true);
+    setUserEmail(email);
   };
 
   const handleLogout= (evt) => {
     evt.preventDefault();
     localStorage.removeItem('jwt');
     setLoggedIn(false);
+    setUserEmail('');
     navigate('/sign-in')
   }
 

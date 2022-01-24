@@ -34,7 +34,7 @@ export default function Login({ onLogin }) {
             password: "",
           })
           localStorage.setItem('jwt', res.token);
-          onLogin();  // обновляем стейт внутри App.js
+          onLogin(values.email);  // обновляем стейт внутри App.js
           navigate("/"); // и переадресуем пользователя! 
         }
       })
