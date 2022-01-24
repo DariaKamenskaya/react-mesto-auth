@@ -130,6 +130,7 @@ function App() {
   // }
 
   useEffect(() => {
+    handleTokenCheck(location.pathname);
     // запрос в API за пользовательскими данными
     Promise.all([ 
     apiData.getUserData(),
@@ -146,15 +147,10 @@ function App() {
   }, []);
 
 
-  useEffect(() => {
-    handleTokenCheck(location.pathname);
-  },[]);
-
 
   const handleTokenCheck = (path) => {
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
-      console.log(jwt);
       // проверяем токен пользователя
       auth.checkToken(jwt).then((res) => {
         if (res) {
@@ -166,21 +162,53 @@ function App() {
     }
   };
 
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
+
+  const handleLogout= (evt) => {
+    evt.preventDefault();
+
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    navigate('/login')
+  }
+
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <Routes>
       <Route
             path="/"
             element={
               <RequireAuth loggedIn={loggedIn}>
-                <Register />
+                <Login onLogin={handleLogin}/>
               </RequireAuth>
             }
       />
       <Route path="/sign-up" element={<Register/>} />
-      <Route path="/sign-in" element={<Login onLogin={handleTokenCheck}/>} />
-      <Route path="/logged" element={<Main/>} />
+      <Route path="/sign-in" element={<Login onLogin={handleLogin}/>} />
+      <Route path="/logged" element={ 
+        <div className="page">
+          <Header nav={'/sign-up'} navStatus={'Регистрация'} /> 
+          <CurrentCardsContext.Provider value={currentCards}>
+            <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} 
+                  onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} 
+                  setCards={setCurrentCards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+            <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/> 
+            <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/> 
+            <AddPlacePopup   isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/> 
+          </CurrentCardsContext.Provider>
+          <Footer />
+          <ImagePopup  card={selectedCard}  onClosePopup={closeAllPopups}/>
+          <PopupWithForm name="delete" title="Вы уверены?"  onClosePopup={closeAllPopups}>
+            <button className="popup__submit-btn popup__submit-btn_delete"  type="submit">
+              Да
+            </button> 
+          </PopupWithForm>
+        </div>
+    } />
     </Routes>
-
+    </CurrentUserContext.Provider>
   );
 }
 

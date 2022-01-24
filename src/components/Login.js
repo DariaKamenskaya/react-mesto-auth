@@ -35,7 +35,7 @@ export default function Login({ onLogin }) {
           })
           localStorage.setItem('jwt', res.token);
           onLogin();  // обновляем стейт внутри App.js
-          navigate("/logged");  // и переадресуем пользователя! 
+          navigate("/logged"); // и переадресуем пользователя! 
         }
       })
       .catch((err) => console.log(err));

@@ -13,7 +13,6 @@ export const register = (email, password) => {
     return response.json();
   })
   .then((res) => {
-    //console.log(res);
     return res;
   })
   .catch((err) => console.log(err));
@@ -28,7 +27,8 @@ export const authorize = (email, password) => {
       },
       body: JSON.stringify({email, password})
     })
-    .then((response => response.json()))
+    .then(res => res.json())
+    .then(data => data)
     .catch(err => console.log(err))
   };
 
