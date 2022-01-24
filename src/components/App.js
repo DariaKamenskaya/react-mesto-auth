@@ -22,7 +22,6 @@ function App() {
   const [isEditProfilePopupOpen, handleEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, handleAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, handleEditAvatarPopupOpen] = useState(false);
-  const [isLoginPopupOpen, handleLoginPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [currentCards, setCurrentCards] = useState([]);
@@ -45,10 +44,6 @@ function App() {
     handleAddPlacePopupOpen(true);
   };
 
-  function handleLoginPopupClick() {
-    handleLoginPopupOpen(true);
-  };
-
   function handleCardClick(card) {
     setSelectedCard(card);
   };
@@ -57,7 +52,6 @@ function App() {
     handleEditAvatarPopupOpen(false);
     handleEditProfilePopupOpen(false);
     handleAddPlacePopupOpen(false);
-    handleLoginPopupOpen(false);
     setSelectedCard(null);
   };
 

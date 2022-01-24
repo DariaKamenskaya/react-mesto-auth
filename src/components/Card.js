@@ -2,9 +2,9 @@ import React from 'react';
 
 function Card(props) {
 
-  handleClick = handleClick.bind(this);
-  handleLikeClick = handleLikeClick.bind(this);
-  handleDeleteClick = handleDeleteClick.bind(this);
+  // handleClick = handleClick.bind(this);
+  // handleLikeClick = handleLikeClick.bind(this);
+  // handleDeleteClick = handleDeleteClick.bind(this);
 
   // Определяем, являемся ли мы владельцем текущей карточки
   const isOwn = props.card.owner._id === props.currentUser._id;
