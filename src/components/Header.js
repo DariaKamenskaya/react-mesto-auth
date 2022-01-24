@@ -8,7 +8,10 @@ function Header(props) {
     <header className="header">
       <div className="header__nav">
         <a href="#" className="header__link"><img src={logoPath} alt="Логотип" className="header__logo"/></a>
-        <Link to={props.nav} className={'header__link header__status'}>{props.navStatus}  </Link>
+        <div className="header__nav_right">
+          <p className={'header__status'}>{props.emailUser}</p> 
+          <Link to={props.nav} className={'header__link header__status'} onClick={props.onLogout}>{props.navStatus}</Link>
+        </div>
       </div>
     </header>
   );

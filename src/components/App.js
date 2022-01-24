@@ -28,6 +28,7 @@ function App() {
   const [currentCards, setCurrentCards] = useState([]);
    // Стейт, в котором содержится значение инпута
    const [loggedIn, setLoggedIn] = useState(false);
+   const [userEmail, setUserEmail] = useState('');
 
    const navigate = useNavigate();
    const location = useLocation();
@@ -156,6 +157,8 @@ function App() {
         if (res) {
           // если есть цель, добавляем её в стейт
           setLoggedIn(true);
+          console.log(res.data.email);
+          setUserEmail(res.data.email);
           navigate(path);
         }
       });
@@ -168,46 +171,44 @@ function App() {
 
   const handleLogout= (evt) => {
     evt.preventDefault();
-
     localStorage.removeItem('jwt');
     setLoggedIn(false);
-    navigate('/login')
+    navigate('/sign-in')
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
     <Routes>
       <Route
             path="/"
             element={
               <RequireAuth loggedIn={loggedIn}>
-                <Login onLogin={handleLogin}/>
+                <div>
+                 <Header nav={'/sign-in'} navStatus={'Выйти'} emailUser={userEmail} onLogout={handleLogout}/> 
+                 <CurrentCardsContext.Provider value={currentCards}>
+                   <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} 
+                         onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} 
+                         setCards={setCurrentCards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+                   <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/> 
+                   <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/> 
+                   <AddPlacePopup   isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/> 
+                 </CurrentCardsContext.Provider>
+                 <Footer />
+                 <ImagePopup  card={selectedCard}  onClosePopup={closeAllPopups}/>
+                 <PopupWithForm name="delete" title="Вы уверены?"  onClosePopup={closeAllPopups}>
+                   <button className="popup__submit-btn popup__submit-btn_delete"  type="submit">
+                     Да
+                   </button> 
+                 </PopupWithForm>
+                </div>
               </RequireAuth>
             }
       />
       <Route path="/sign-up" element={<Register/>} />
       <Route path="/sign-in" element={<Login onLogin={handleLogin}/>} />
-      <Route path="/logged" element={ 
-        <div className="page">
-          <Header nav={'/sign-up'} navStatus={'Регистрация'} /> 
-          <CurrentCardsContext.Provider value={currentCards}>
-            <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} 
-                  onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} 
-                  setCards={setCurrentCards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
-            <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/> 
-            <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/> 
-            <AddPlacePopup   isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/> 
-          </CurrentCardsContext.Provider>
-          <Footer />
-          <ImagePopup  card={selectedCard}  onClosePopup={closeAllPopups}/>
-          <PopupWithForm name="delete" title="Вы уверены?"  onClosePopup={closeAllPopups}>
-            <button className="popup__submit-btn popup__submit-btn_delete"  type="submit">
-              Да
-            </button> 
-          </PopupWithForm>
-        </div>
-    } />
     </Routes>
+      </div>
     </CurrentUserContext.Provider>
   );
 }
