@@ -15,7 +15,7 @@ export default function InfoTooltip(props) {
         </div>
         </section>
       );
-     } else if (props.errorLogin) {
+     } else if (!props.errorLogin) {
         return (
           <section className="popup popup_login popup_is-opened" >
           <div className="popup__content popup__content_login" >
