@@ -125,10 +125,6 @@ function App() {
     });
   } 
 
-  // function handleLogin(e) {
-  //   e.preventDefault();
-  //   setloggedIn(true);
-  // }
 
   useEffect(() => {
     handleTokenCheck(location.pathname);
@@ -146,7 +142,6 @@ function App() {
       return [];
     })
   }, []);
-
 
 
   const handleTokenCheck = (path) => {
